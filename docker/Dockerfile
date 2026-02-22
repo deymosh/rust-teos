@@ -21,7 +21,7 @@ FROM alpine:latest
 RUN apk update && apk upgrade
 
 # UID and GID for the teosd user
-ENV TEOS_UID=1001 TEOS_GID=1001
+ENV TEOS_UID=1000 TEOS_GID=1000
 
 # Copy the teos binaries from the build stage to the new stage
 COPY --from=builder \
