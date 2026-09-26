@@ -1,5 +1,8 @@
+# Base images are pinned by version and digest so a build is reproducible
+# (the upstream Dockerfile tracks rust:latest / alpine:latest). Bump the tag
+# and re-resolve the digest together.
 # Use the rust image as the base image for the build stage
-FROM rust:latest AS builder
+FROM rust:1.98.1-trixie@sha256:a8a5f0a1e5fe7dfe1d352591e4a1c7dd2c08fd70475cae872cf3458ba0df0546 AS builder
 
 # Copy the rust-teos source code
 COPY . /tmp/rust-teos
@@ -16,7 +19,7 @@ RUN cd /tmp/rust-teos \
     && RUSTFLAGS='-C target-feature=+crt-static' cargo build --manifest-path=teos/Cargo.toml --locked --release --target x86_64-unknown-linux-musl
 
 # Use a new stage with a smaller base image to reduce image size
-FROM alpine:latest
+FROM alpine:3.24@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
 
 RUN apk update && apk upgrade
 
