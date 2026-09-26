@@ -71,14 +71,17 @@ impl TorAPI {
 
     /// Tries to connect to the Tor control port
     async fn connect_tor_cp(&self) -> Result<TcpStream, Error> {
-        let sock = TcpStream::connect(format!("{}:{}", self.tor_control_host, self.tor_control_port))
-            .await
-            .map_err(|_| {
-                Error::new(
-                    ErrorKind::ConnectionRefused,
-                    "failed to connect to Tor control port",
-                )
-            })?;
+        let sock = TcpStream::connect(format!(
+            "{}:{}",
+            self.tor_control_host, self.tor_control_port
+        ))
+        .await
+        .map_err(|_| {
+            Error::new(
+                ErrorKind::ConnectionRefused,
+                "failed to connect to Tor control port",
+            )
+        })?;
         Ok(sock)
     }
 
